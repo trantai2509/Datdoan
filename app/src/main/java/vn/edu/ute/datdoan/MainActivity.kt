@@ -7,9 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import vn.edu.ute.datdoan.data.DuLieuMau
+import vn.edu.ute.datdoan.helper.DatMonHelper
 import vn.edu.ute.datdoan.model.MonAn
 
 class MainActivity : AppCompatActivity() {
@@ -52,5 +54,15 @@ class MainActivity : AppCompatActivity() {
         btndatmon = findViewById(R.id.btndatmon)
 
         txtmonan.text = "${monchon.ten} - Giá: ${monchon.donGia}"
+
+        edtsoluong.doAfterTextChanged { capnhatui() }
+        edtkhoangcach.doAfterTextChanged { capnhatui() }
+    }
+    fun capnhatui() {
+        txtmonan.text = "${monchon.ten} - Giá: ${monchon.donGia}"
+        val sl = edtsoluong.text.toString().trim().toIntOrNull() ?: 0
+        val kc = edtkhoangcach.text.toString().trim().toIntOrNull() ?: 0
+        val tien = DatMonHelper.tinhTienDon_23115053122139(monchon, sl, kc)
+        txttamtinh.text = "Tạm tính: $tien"
     }
 }
